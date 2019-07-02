@@ -11,7 +11,8 @@
 % плюс исправляем кабанические отступы вокруг формул
 \usepackage[nodisplayskipstretch]{setspace}
 %\onehalfspacing
-\doublespace %почти эквивалент интервала который в ворде 1.5
+%\linespread{1}
+\doublespacing \selectfont{} %почти эквивалент интервала который в ворде 1.5
 
 \usepackage{graphicx} % для вставки картинок
 \usepackage{amssymb,amsfonts,amsmath,amsthm} % математические дополнения от АМС
@@ -28,42 +29,25 @@
 \geometry{top=2.4cm}
 \geometry{bottom=2.4cm}
 
-% настраиваем контитулы
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[R]{\thepage}
-\fancyheadoffset{0mm}
-\fancyfootoffset{0mm}
-\setlength{\headheight}{17pt}
-\renewcommand{\headrulewidth}{0pt}
-\renewcommand{\footrulewidth}{0pt}
-\fancypagestyle{plain}{ 
-    \fancyhf{}
-    \rhead{\thepage}}
-\setcounter{page}{1} % начать нумерацию страниц с №5
-
-
-
 \renewcommand{\rmdefault}{ftm} % Times New Roman
 \frenchspacing
-
+ 
 
 \begin{document}
-    Hello world! \newline
+Hello world! \newline
     $\alpha = 1$ \newline
     Приветики!!!
     Это настоящий initial commit!!! 
-    \newline
+
     Сматри матрицу замутил:
-    \newline
     \[
     \begin{bmatrix}
         a & b & c \\
         d & e & f
     \end{bmatrix}
     \]
-    I had similar problem and whatever I did to fix the issue it didn't work. The reason was that the packages had conflict with "setspace". On the other hand, without using the "setspace" package, the \onehalfspacing macro didn't work properly (although it didn't complain, but the spacing was not as it was supposed to be).
+
+    I had similar problem and whatever I did to fix the issue it didn't work. The reason was that the packages had conflict with "setspace". On the other hand, without using the "setspace" package, the onehalfspacing macro didn't work properly (although it didn't complain, but the spacing was not as it was supposed to be).
 
     \newpage
     Foo bar
