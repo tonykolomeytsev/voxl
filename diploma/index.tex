@@ -1,54 +1,311 @@
 \documentclass[a4paper,14pt,russian]{extreport}
 
-\usepackage{extsizes} % для установки размера шрифта
-\usepackage{cmap} % для кодировки шрифтов в pdf
-\usepackage[T2A]{fontenc}
-\usepackage[utf8]{inputenc} % для поддержки русского
-\usepackage[russian]{babel} % тоже для поддержки русского
+\usepackage{extsizes}       % для установки размера шрифта
+%\usepackage{mathtext}       % русские буквы в формулах
+\usepackage{cmap}           % поиск в pdf
+\usepackage[T2A]{fontenc}   % кодировка
+\usepackage[utf8]{inputenc} % кодировка исходного текста
+\usepackage[russian]{babel} % локализация и переносы
 \usepackage{pscyr}
 
 % далее две строки отвечающие за т.н. "полуторный интервал"
 % плюс исправляем кабанические отступы вокруг формул
 \usepackage[nodisplayskipstretch]{setspace}
-%\onehalfspacing
-%\linespread{1}
-\doublespacing \selectfont{} %почти эквивалент интервала который в ворде 1.5
+\onehalfspacing
+% двойной оттступ - эквивалент интервала который в ворде называют "1.5 отступ"
+% но я буду юзать ИСТИННЫЙ полуторный интервал, который на 10% меньше
+%\doublespacing 
 
 \usepackage{graphicx} % для вставки картинок
-\usepackage{amssymb,amsfonts,amsmath,amsthm} % математические дополнения от АМС
+\usepackage{amssymb,amsfonts,amsmath,amsthm, mathtools} % математические дополнения от АМС
+\usepackage{icomma} % умная запятая)) $3,49$ - число, $3, 49$ - перечисление
 \usepackage{indentfirst} % отделять первую строку раздела абзацным отступом тоже
 \usepackage[usenames,dvipsnames]{color} % названия цветов
 \usepackage{makecell}
 \usepackage{multirow} % улучшенное форматирование таблиц
 \usepackage{ulem} % подчеркивания
 
-% настраиваем поля
+%\mathtoolsset{showonlyrefs=true} % показывать номера только у тех формул, на которые есть ссылки
+%\usepackage{leqno} % нумерация формул слева
+\usepackage{euscript} % математический шрифт Евклид (красивый) для формул
+\usepackage{mathrsfs} % красивые вычурные буквы с завитушками для формул
+% Перенос знаков в формулах по Львовскому (дублировать знак при переносе)
+\newcommand*{\hm}[1]{#1\nobreak\discretionary{}
+            {\hbox{\mathsurround=0pt #1}}{}}
+\usepackage{physics} % для удобной записи производных
+
+% СВОИ МАТЕМАТИЧЕСКИЕ ФУНКЦИИ (КОМАНДЫ)
+\DeclareMathOperator{\heviside}{\mathop{H}}
+
+
+% ====================================================================
+%                   Настраиваем стандартные поля
+%                   Верхнее и нижнее - 2см
+%                   Левое - 3см
+%                   Правое - 1.5см
+% ====================================================================
 \usepackage{geometry}
 \geometry{left=3cm}
 \geometry{right=1.5cm}
-\geometry{top=2.4cm}
-\geometry{bottom=2.4cm}
+\geometry{top=2cm}
+\geometry{bottom=2cm}
 
-\renewcommand{\rmdefault}{ftm} % Times New Roman
+
+
+% ====================================================================
+%                     Включаем Times New Roman
+% ====================================================================
+\renewcommand{\rmdefault}{ftm} 
 \frenchspacing
- 
 
+
+
+% ====================================================================
+%           Нумерация страниц справа снизу (контитулы)
+% ====================================================================
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[R]{\thepage}
+\fancyheadoffset{0mm}
+\fancyfootoffset{0mm}
+\setlength{\footskip}{17pt}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancypagestyle{plain}{ 
+    \fancyhf{}
+    \rfoot{\thepage}}
+\setcounter{page}{5} % начать нумерацию страниц с №5
+
+
+
+% ====================================================================
+%           Подписи под изображениями и над таблицами
+% ====================================================================
+\usepackage[tableposition=top]{caption}
+\usepackage{subcaption}
+\DeclareCaptionLabelFormat{gostfigure}{Рисунок #2}
+\DeclareCaptionLabelFormat{gosttable}{Таблица #2}
+\DeclareCaptionLabelSeparator{gost}{~---~}
+\captionsetup{labelsep=gost}
+\captionsetup[figure]{labelformat=gostfigure}
+\captionsetup[table]{labelformat=gosttable}
+\renewcommand{\thesubfigure}{\asbuk{subfigure}}
+
+
+
+% ====================================================================
+%                   Перечисления, нумерованные списки
+% Согласно ЕСКД они будут выглядеть как:
+% а) first
+% б) second
+%     1) first sub-second
+%     2) second sub-second
+% в) third 
+%
+% ====================================================================
+\usepackage{enumitem}
+\makeatletter
+    \AddEnumerateCounter{\asbuk}{\@asbuk}{м)}
+\makeatother
+\setlist{nolistsep}
+\renewcommand{\labelitemi}{-}
+\renewcommand{\labelenumi}{\asbuk{enumi})}
+\renewcommand{\labelenumii}{\arabic{enumii})}
+
+
+
+% ====================================================================
+%                       Настройка заголовков
+% ====================================================================
+\usepackage{titlesec}
+ 
+\titleformat{\chapter}[display]
+    {\filcenter}
+    {\MakeUppercase{\chaptertitlename} \thechapter}
+    {8pt}
+    {\bfseries}{}
+ 
+\titleformat{\section}
+    {\normalsize\bfseries}
+    {\thesection}
+    {1em}{}
+ 
+\titleformat{\subsection}
+    {\normalsize\bfseries}
+    {\thesubsection}
+    {1em}{}
+% Настройка вертикальных и горизонтальных отступов заголовков
+\titlespacing*{\chapter}{0pt}{-30pt}{8pt}
+\titlespacing*{\section}{\parindent}{*4}{*4}
+\titlespacing*{\subsection}{\parindent}{*4}{*4}
+
+
+
+% ====================================================================
+%                       Настройка оглавления
+% ====================================================================
+\usepackage{tocloft}
+\renewcommand{\cfttoctitlefont}{\hspace{0.38\textwidth} \bfseries\MakeUppercase}
+\renewcommand{\cftbeforetoctitleskip}{-1em}
+\renewcommand{\cftaftertoctitle}{\mbox{}\hfill \\ \mbox{}\vspace{-2.5em}}
+\renewcommand{\cftchapfont}{\normalsize\bfseries \MakeUppercase{\chaptername} }
+\renewcommand{\cftsecfont}{\hspace{31pt}}
+\renewcommand{\cftsubsecfont}{\hspace{11pt}}
+\renewcommand{\cftbeforechapskip}{1em}
+\renewcommand{\cftparskip}{1mm}
+\renewcommand{\cftdotsep}{1}
+\setcounter{tocdepth}{2} % задать глубину оглавления — до subsection включительно
+
+
+
+% ====================================================================
+%                   Настройка специальных разделов
+% Встроим в оглавление специальные главы: аннотацию, введение и т.д.
+% Такие главы будут создаваться командой "\likechapter{название главы}" 
+% ====================================================================
+\newcommand{\likechapterheading}[1]{ 
+    \begin{center}
+    \textbf{\MakeUppercase{#1}}
+    \end{center}}
+
+\makeatletter
+    \renewcommand{\@dotsep}{2}
+    \newcommand{\l@likechapter}[2]{{\bfseries\@dottedtocline{0}{0pt}{0pt}{#1}{#2}}}
+\makeatother
+\newcommand{\likechapter}[1]{    
+    \likechapterheading{#1}    
+    \addcontentsline{toc}{likechapter}{\MakeUppercase{#1}}}
+
+
+
+% ====================================================================
+%                           МЕТА-ДАННЫЕ
+% ====================================================================
+\author{Коломейцев А.А.}
+\title{Разработка автономного шагающего робота и его управление}
+
+
+
+% ====================================================================
+%                           НАЧАЛО КОНТЕНТА
+% ====================================================================
 \begin{document}
-Hello world! \newline
+
+\likechapter{Аннотация}
+
+В рамках выполнения данной работы была спроектирована и собрана колесно-шагающая машина, способная на автономное выполнение задач. Применена концепция дифференциального управления машиной, которая заключается в разделении управления на несколько режимов для оптимизации управления. Проведено исследование механики системы в режимах езды и ходьбы. Подобрана соответствующая аппаратура, исходя из требований по нагрузкам, управлению и навигации. Построена трехмерная модель данного робота, с визуализацией его движения. Разработана математическая модель движения робота, с помощью которой были получены данные для различных базовых траекторий. Спроектирована система управления, для которой было написано соответствующее программное обеспечение.
+\newpage
+
+
+% Оглавление. 
+% Для правильного отображения оглавления документ должен быть
+% скомпилирован дважды (иногда трижды).
+\tableofcontents
+\newpage
+
+\likechapter{Введение}
+
+Актуальность работы. Задача создания новых мобильных устройств специального назначения с высокой степенью мобильности и повышенной проходимостью, способных работать в условиях ограниченного пространства, местности с препятствиями и прочими ограничениями актуальна ввиду тенденции использования инновационных технологий во многих областях производства и сферах жизни.
+\newpage
+
+
+\chapter{\MakeUppercase{Шагающий робот}}
+\section{Конструктивная схема шагающего робота}
+
+    Hello world! \newline
     $\alpha = 1$ \newline
     Приветики!!!
     Это настоящий initial commit!!! 
 
     Сматри матрицу замутил:
-    \[
+    $$
     \begin{bmatrix}
         a & b & c \\
         d & e & f
     \end{bmatrix}
-    \]
+    $$
 
     I had similar problem and whatever I did to fix the issue it didn't work. The reason was that the packages had conflict with "setspace". On the other hand, without using the "setspace" package, the onehalfspacing macro didn't work properly (although it didn't complain, but the spacing was not as it was supposed to be).
 
-    \newpage
-    Foo bar
+    \begin{enumerate}
+        \item Какой-то текста
+        \item Еще один текст
+        \item Пункт номер три
+        \item Пункт с подпунктами
+        \begin{enumerate}
+            \item Подпункт 
+            \item Хех!
+        \end{enumerate}
+    \end{enumerate}
+
+    \begin{equation}\label{eq:twoplustwo}
+        2.5+2\hm{=}4.5 
+    \end{equation}
+    \eqref{eq:twoplustwo} --- два плюс два
+
+    $$ \dv{}{t}  \pdv{T}{\dot{q_i}} -\pdv{T}{q_i}=Q_i $$
+
+    $$ \heviside (1+x) $$
+
+    $$ \left\{
+    \begin{aligned}
+        x+y=1\\z+\dot{y}=1
+    \end{aligned} \right.
+    $$
+
+    \chapter{\MakeUppercase{Анализ системы}}
+    \section{Кинематика ходьбы}
+
+    Верхняя его часть антропоморфна, однако ног у него четыре, что выделяет его на фоне роботов антропоморфной конструкции в вопросах мобильности и устойчивости. Стоит отметить, что данный аппарат не полностью автономен, и для полноценной работы ему потребуется оператор, однако по словам разработчиков в случае, например, обрыва питания робот может продолжить выполнение задач самостоятельно. 
+
+    \section{Динамика ходьбы}
+
+    Каждая нога состоит из манипулятора с четырьмя степенями свободы (поворот в плоскости платформы, и три поворота в вертикальной плоскости) и колеса, имеющего две степени свободы относительно конечного звена манипулятора.
+
+    \begin{figure}[ht]
+        \centering
+            \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+                $$\begin{array}{l}
+                F \to x \;|\; y \;|\; (S) \\
+                T \to F \;|\; T \ast F \\
+                S \to T \;|\; S + T \\    
+                \end{array}$$
+                \caption{}
+            \end{subfigure} %    
+            \begin{subfigure}[b]{0.6\textwidth}
+            \centering
+                %\includegraphics[scale=0.7]{parseTree.png}
+                $$\begin{array}{l}
+                F \to x \;|\; y \;|\; (S) \\
+                T \to F \;|\; T \ast F \\
+                S \to T \;|\; S + T \\    
+                \end{array}$$
+                \caption{}
+            \end{subfigure}
+         
+            \caption{(a) Продукции грамматики $G$ для порождения арифметических выражений; 
+                     (б) Дерево разбора строки $x+y\ast y$ в грамматике $G$.}
+            
+            \label{fig_parsetree}
+        \end{figure}
+
+        \begin{table}[ht]
+            \caption{Расчет весомости параметров ПП}
+            \label{tab_weight}
+            \centering
+                \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+                \hline \multirow{2}{*}{Параметр $x_i$} & \multicolumn{4}{c|}{Параметр $x_j$} & 
+                    \multicolumn{2}{c|}{Первый шаг} & \multicolumn{2}{c|}{Второй шаг} \\
+                \cline{2-9} & $X_1$ & $X_2$ & $X_3$ & $X_4$ & $w_i$ & 
+                    ${K_\text{в}}_i$ & $w_i$ & ${K_\text{в}}_i$ \\
+                \hline $X_1$ & 1 & 1 & 1.5 & 1.5 & 5 & 0.31 & 19 & 0.32 \\
+                \hline $X_2$ & 1 & 1 & 1.5 & 1.5 & 5 & 0.31 & 19 & 0.32 \\
+                \hline $X_3$ & 0.5 & 0.5 & 1 & 0.5 & 2.5 & 0.16 & 9.25 & 0.16 \\
+                \hline $X_4$ & 0.5 & 0.5 & 1.5 & 1 & 3.5 & 0.22 & 12.25 & 0.20 \\
+                \hline \multicolumn{5}{|c|}{Итого:} & 16 & 1 & 59.5 & 1 \\
+                \hline
+                \end{tabular}
+        \end{table}
 \end{document}
