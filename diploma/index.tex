@@ -214,6 +214,49 @@
 
 
 % ====================================================================
+%                           Приложения
+% ====================================================================
+\usepackage[title,titletoc]{appendix}
+\titleformat{\paragraph}[display]
+    {\filcenter}
+    {\MakeUppercase{\chaptertitlename} \thechapter}
+    {8pt}
+    {\bfseries}{}
+\titlespacing*{\paragraph}{0pt}{-30pt}{8pt}
+\newcommand{\append}[1]{
+    \clearpage
+    \stepcounter{chapter}
+    \paragraph{\MakeUppercase{\chaptertitlename~\Asbuk{chapter}: #1}}
+    \addcontentsline{toc}{likechapter}{\MakeUppercase{\chaptertitlename~\Asbuk{chapter}: #1}}
+}
+
+
+% ====================================================================
+%             Счетчики страниц, таблиц, изображений
+% ====================================================================
+\usepackage{lastpage} % использовать можно \pageref*{LastPage}
+% далее костыль со stackoverflow
+\usepackage{totcount}
+\newcounter{totfigures}
+\newcounter{tottables}
+\makeatletter
+    \AtEndDocument{
+      \addtocounter{totfigures}{\value{figure}}
+      \addtocounter{tottables}{\value{table}}
+      \immediate\write\@mainaux{
+        \string\gdef\string\totfig{\number\value{totfigures}}
+        \string\gdef\string\tottab{\number\value{tottables}}   
+      }
+    }
+\makeatother
+% перед каждым вызовом chapter обновляем счетчики
+\usepackage{etoolbox}
+\pretocmd{\chapter}{\addtocounter{totfigures}{\value{figure}}}{}{}
+\pretocmd{\chapter}{\addtocounter{tottables}{\value{table}}}{}{}
+
+
+
+% ====================================================================
 %                           МЕТА-ДАННЫЕ
 % ====================================================================
 \author{Коломейцев А.А.}
@@ -238,5 +281,7 @@
 \includechapter{legged_robots} % глава "Шагающие роботы"
 
 \includechapter{system_analisys} % глава "Анализ системы"
+
+Дипломная работа \pageref{LastPage}~с \totfig~рис. \tottab~таблиц.
 
 \end{document}
