@@ -5,3 +5,4 @@ diploma/*.fls
 diploma/*.log
 diploma/*.synctex.gz
 diploma/*.toc
+*.bib.*

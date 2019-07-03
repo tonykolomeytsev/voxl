@@ -214,6 +214,23 @@
 
 
 % ====================================================================
+%                         Список литературы
+% ====================================================================
+\newcommand{\includebiblio}[1]{
+    \begingroup
+    \renewcommand{\chapter}[2]{
+        \clearpage
+        \stepcounter{chapter}
+        \paragraph{\MakeUppercase{Библиографический список}}
+        \addcontentsline{toc}{likechapter}{\MakeUppercase{Библиографический список}}
+    }
+    \bibliographystyle{gost780s} % Стиль библиографических ссылок БибТеХа
+    \bibliography{#1}
+    \endgroup
+}
+
+
+% ====================================================================
 %                           Приложения
 % ====================================================================
 \usepackage[title,titletoc]{appendix}
@@ -229,6 +246,7 @@
     \paragraph{\MakeUppercase{\chaptertitlename~\Asbuk{chapter}: #1}}
     \addcontentsline{toc}{likechapter}{\MakeUppercase{\chaptertitlename~\Asbuk{chapter}: #1}}
 }
+
 
 
 % ====================================================================
@@ -282,6 +300,24 @@
 
 \includechapter{system_analisys} % глава "Анализ системы"
 
+\includebiblio{sources} % в файле source.bib лежит БД со списком источников
+
 Дипломная работа \pageref{LastPage}~с \totfig~рис. \tottab~таблиц.
+
+
+\begin{appendices}
+    \renewcommand\thechapter{\Asbuk{chapter}}
+    \setcounter{chapter}{0}
+
+    \append{Код класса}
+    \lstinputlisting[language=Python,firstline=14,lastline=34,firstnumber=14]{asynclapi.py}
+
+    \append{Еще немного кода}
+    \begin{python}
+import clapi as api
+    \end{python}
+\end{appendices}
+
+
 
 \end{document}
