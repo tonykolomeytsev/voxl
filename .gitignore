@@ -1,0 +1,7 @@
+# LATEX build files
+diploma/*.aux
+diploma/*.fdb_latexmk
+diploma/*.fls
+diploma/*.log
+diploma/*.synctex.gz
+diploma/*.toc
