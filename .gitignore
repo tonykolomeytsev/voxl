@@ -5,4 +5,7 @@ diploma/*.fls
 diploma/*.log
 diploma/*.synctex.gz
 diploma/*.toc
+# BibTEX build files
 *.bib.*
+*.bbl
+*.blg
