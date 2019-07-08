@@ -212,7 +212,7 @@
 \usepackage{import}
 \newcommand{\includechapter}[1]{\subimport{chapter_#1/}{chapter_#1}\newpage}
 \newcommand{\includeappend}[1]{\subimport{append_#1/}{append_#1}\newpage}
-
+\usepackage{tabularx}
 
 
 % ====================================================================
@@ -223,7 +223,7 @@
     \renewcommand{\chapter}[2]{
         \clearpage
         \stepcounter{chapter}
-        \paragraph{\MakeUppercase{Библиографический список}}
+        \centering\paragraph{\MakeUppercase{Библиографический список}}
         \addcontentsline{toc}{likechapter}{\MakeUppercase{Библиографический список}}
     }
     \let\bibfont\protect\normalsize
@@ -247,7 +247,11 @@
 \newcommand{\append}[1]{
     \clearpage
     \stepcounter{chapter}
-    \paragraph{\MakeUppercase{\chaptertitlename~\Asbuk{chapter}: #1}}
+    \begin{center}
+        \paragraph{\MakeUppercase{\chaptertitlename~\Asbuk{chapter}}}
+        \vspace{-0.5cm}
+        \paragraph{\MakeUppercase{ #1}}
+    \end{center}
     \addcontentsline{toc}{likechapter}{\MakeUppercase{\chaptertitlename~\Asbuk{chapter}: #1}}
 }
 
@@ -312,22 +316,11 @@
 
 %Дипломная работа \pageref{LastPage}~с \totfig~рис. \tottab~таблиц.
 
+\appendix
 
-\begin{appendices} 
-    \renewcommand\thechapter{\Asbuk{chapter}}
-    \setcounter{chapter}{0}
+\includeappend{stuff}
 
-    \includeappend{stuff}
-
-    \append{Код класса}
-    \lstinputlisting[language=Python,firstline=14,lastline=34,firstnumber=14]{asynclapi.py}
-
-    \append{Еще немного кода}
-    \begin{python}
-import clapi as api
-    \end{python}
-\end{appendices}
-
-
+\append{Код класса}
+\lstinputlisting[language=Python,firstline=14,lastline=34,firstnumber=14]{asynclapi.py}
 
 \end{document}
