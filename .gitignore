@@ -9,4 +9,5 @@ diploma/*.toc
 *.bib.*
 *.bbl
 *.blg
+# altium cache files
 electronics/KM_BD01/History
