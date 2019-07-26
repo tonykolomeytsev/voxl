@@ -1,0 +1,12 @@
+Removed Pin From Net: NetName=VCC12V Pin=U4-1
+Removed Pin From Net: NetName=VCC5V Pin=U4-2
+Removed Pin From Net: NetName=GND Pin=U4-3
+Change Component Footprint: Designator=U4 Old Footprint=D2PAK New Footprint=SOIC-8 (KF50BD-TR)
+Change Component Comment : Designator=U4 Old Comment=L7805 New Comment=KF50BD-TR
+Added Pin To Net: NetName=VCC5V Pin=U4-1
+Added Pin To Net: NetName=GND Pin=U4-2
+Added Pin To Net: NetName=GND Pin=U4-2
+Added Pin To Net: NetName=GND Pin=U4-2
+Added Pin To Net: NetName=GND Pin=U4-2
+Added Pin To Net: NetName=VCC12V Pin=U4-5
+Added Room: Name=KM_BD01
