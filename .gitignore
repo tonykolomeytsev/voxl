@@ -11,3 +11,4 @@ diploma/*.toc
 *.blg
 # altium cache files
 electronics/KM_BD01/History
+electronics/KM_BD01/__Previews
